@@ -1,6 +1,7 @@
 package com.br.codenation.application.service;
 
 import com.br.codenation.application.domain.entity.Empresa;
+import com.br.codenation.application.domain.vo.CompanyAvgVO;
 import com.br.codenation.application.domain.vo.EmpresaVO;
 import com.br.codenation.application.domain.vo.UsuarioVO;
 
@@ -20,4 +21,5 @@ public interface IEmpresaService {
 	void delete(Long id) throws Exception;
 
 	EmpresaVO changeVagas(EmpresaVO empresaVO) throws Exception;
+	List<CompanyAvgVO>  getAverageSalary();
 }

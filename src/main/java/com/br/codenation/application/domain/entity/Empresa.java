@@ -29,7 +29,8 @@ public class Empresa {
     private String site;
 
 	@JsonIgnore
-    @OneToMany(mappedBy="id", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_empresa")
     private List<Usuario> usuarios;
 
 	@Column(name = "nome", nullable = false, length = 255)

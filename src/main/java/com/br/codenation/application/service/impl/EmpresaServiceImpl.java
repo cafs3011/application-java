@@ -4,6 +4,7 @@ import com.br.codenation.application.domain.dao.EmpresaDAO;
 import com.br.codenation.application.domain.entity.Empresa;
 import com.br.codenation.application.domain.entity.Endereco;
 import com.br.codenation.application.domain.entity.Usuario;
+import com.br.codenation.application.domain.vo.CompanyAvgVO;
 import com.br.codenation.application.domain.vo.EmpresaVO;
 import com.br.codenation.application.domain.vo.EnderecoVO;
 import com.br.codenation.application.service.IEmpresaService;
@@ -11,7 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,6 +35,32 @@ public class EmpresaServiceImpl implements IEmpresaService {
     @Override
     public Long getCount(){
         return empresaDAO.count();
+    }
+
+
+    @Override
+    public List<CompanyAvgVO> getAverageSalary(){
+        List<Empresa> lstEmpresa = empresaDAO.findAll();
+        List<CompanyAvgVO> lstEmpresaVO = new ArrayList<CompanyAvgVO>();
+
+        for (Empresa empresa : lstEmpresa) {
+            List<Usuario> usuarios = empresa.getUsuarios();
+            CompanyAvgVO empresaVO = new CompanyAvgVO();
+            empresaVO.setId(empresa.getId());
+            empresaVO.setNome(empresa.getNome());
+            BigDecimal sum = usuarios.stream().map(u->u.getSalario())
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+            if(usuarios.size() > 0) {
+                BigDecimal avg = sum.divide(new BigDecimal(usuarios.size()));
+                empresaVO.setAverageSalary(avg);
+            }
+            else{
+                empresaVO.setAverageSalary(BigDecimal.ZERO);
+            }
+            lstEmpresaVO.add(empresaVO);
+        }
+
+        return lstEmpresaVO;
     }
 
     @Override

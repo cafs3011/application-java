@@ -11,14 +11,8 @@ import java.math.BigDecimal;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmpresaVO {
+public class CompanyAvgVO {
     private Long id;
-
-    private int vagas;
-    private String site;
     private String nome;
-    private String documento;
-
-    private EnderecoVO endereco;
     private BigDecimal averageSalary;
 }
