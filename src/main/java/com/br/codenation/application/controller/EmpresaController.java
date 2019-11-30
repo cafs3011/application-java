@@ -74,7 +74,17 @@ public class EmpresaController {
             return ResponseEntity.badRequest().body(exception.getMessage());
         }
     }
+
+    @GetMapping("/averageSalary")
+    public ResponseEntity getAverageSalary(){
+        try {
+            return ResponseEntity.ok(empresaService.getAverageSalary());
+        } catch (Exception exception) {
+            LOG.error(exception.getMessage());
+            return ResponseEntity.badRequest().body(exception.getMessage());
+        }
     }
+}
 
 
 
